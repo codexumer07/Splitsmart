@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SplitSmart – Make Group Payments Painless</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --blue: #0066ff;
+      --green: #49ff4c;
+      --bg: #f5f7fb;
+      --text: #111827;
+      --muted: #6b7280;
+      --card: #ffffff;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(245, 247, 251, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .logo-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, var(--green), var(--blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.35);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.88rem;
+    }
+
+    .nav-links a {
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      color: var(--muted);
+      transition: all 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      background: #e0ecff;
+      color: var(--blue);
+    }
+
+    .nav-links a.active {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    section {
+      margin: 2.5rem 0;
+    }
+
+    /* HERO */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 2.5rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 3.2vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-highlight {
+      color: var(--blue);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      max-width: 32rem;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-primary {
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #0066ff, #4f46e5);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-outline {
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .hero-meta {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .hero-meta strong {
+      color: var(--text);
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at 0 0, #e0f2fe, #eef2ff);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 14px 45px rgba(15, 23, 42, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .hero-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .hero-pill {
+      border-radius: 0.85rem;
+      padding: 0.45rem 0.6rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hero-pill span.icon {
+      font-size: 1rem;
+    }
+
+    /* GENERAL SECTIONS */
+
+    .section-kicker {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #6b7280;
+      margin-bottom: 0.15rem;
+    }
+
+    h2.section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-description {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.1rem;
+      max-width: 42rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 1.25rem;
+      padding: 1.25rem 1.35rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    }
+
+    .card + .card {
+      margin-top: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.02rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-subtitle {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+
+    p {
+      margin-bottom: 0.4rem;
+      font-size: 0.93rem;
+    }
+
+    ul {
+      padding-left: 1.1rem;
+      margin-bottom: 0.4rem;
+      font-size: 0.93rem;
+    }
+
+    li + li {
+      margin-top: 0.15rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .color-swatch {
+      height: 54px;
+      border-radius: 0.9rem;
+      display: flex;
+      align-items: flex-end;
+      padding: 0.4rem 0.6rem;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .swatch-blue { background: #0066ff; }
+    .swatch-green { background: #49ff4c; color: #064e3b; }
+    .swatch-white {
+      background: #ffffff;
+      color: #111827;
+      border: 1px solid var(--border);
+    }
+
+    .persona-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .persona-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .objective-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .objective-card {
+      background: #ffffff;
+      border-radius: 1.25rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .objective-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #6b7280;
+      margin-bottom: 0.3rem;
+    }
+
+    .objective-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .race-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .race-card {
+      background: #ffffff;
+      border-radius: 1.1rem;
+      padding: 0.9rem 0.9rem 1rem;
+      border: 1px solid var(--border);
+      font-size: 0.86rem;
+    }
+
+    .race-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 0.1rem;
+    }
+
+    .race-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .platform-card {
+      background: #ffffff;
+      border-radius: 1.25rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .badge-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: #eff6ff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.4rem;
+      font-size: 1.1rem;
+    }
+
+    .content-theme-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .metric-card {
+      background: #ffffff;
+      border-radius: 1rem;
+      padding: 0.8rem 0.9rem;
+      border: 1px dashed #cbd5f5;
+      font-size: 0.85rem;
+    }
+
+    .metric-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.6rem;
+    }
+
+    .mood-tile {
+      background: linear-gradient(135deg, #e0f2fe, #f9fafb);
+      border-radius: 0.9rem;
+      border: 1px dashed #bfdbfe;
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      text-align: center;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-wrap: balance;
+    }
+
+    .timeline {
+      border-left: 2px solid #d1d5db;
+      padding-left: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .timeline-item {
+      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 0.4rem;
+    }
+
+    .timeline-item::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--blue);
+      border: 2px solid #e5f0ff;
+      position: absolute;
+      left: -1.4rem;
+      top: 0.25rem;
+    }
+
+    .timeline-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #6b7280;
+      margin-bottom: 0.15rem;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .race-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .objective-grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+      .platform-grid,
+      .grid-2,
+      .metric-grid,
+      .content-theme-grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .mood-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .nav-links {
+        display: none;
+      }
+      header {
+        position: static;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .mood-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .grid-3 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="nav-logo">
+        <div class="logo-badge">SS</div>
+        <span>SplitSmart</span>
+      </div>
+      <div class="nav-links">
+        <a href="#home" class="active">Home</a>
+        <a href="#story">About</a>
+        <a href="#audience">Who It’s For</a>
+        <a href="#goals">Growth Goals</a>
+        <a href="#strategy">Strategy</a>
+        <a href="#platforms">Platforms</a>
+        <a href="#content">Content</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#moodboard">Visuals</a>
+        <a href="#roadmap">Roadmap</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page">
+    <!-- HERO -->
+    <section id="home">
+      <div class="hero">
+        <div>
+          <h1 class="hero-title">
+            Make <span class="hero-highlight">group payments</span> painless.
+          </h1>
+          <p class="hero-subtitle">
+            SplitSmart is built for students and shared households who are tired
+            of awkward reminders, messy spreadsheets and “I’ll pay you later”
+            texts. Scan, split and settle — fairly and instantly.
+          </p>
+          <div class="hero-cta-row">
+            <button class="btn-primary">Get early access</button>
+            <button class="btn-outline">See how it works</button>
+          </div>
+          <div class="hero-meta">
+            <p><strong>Built for:</strong> students, housemates, travel groups & societies.</p>
+            <p><strong>Launch focus:</strong> Dublin City → Ireland → Europe.</p>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <div class="hero-card-title">What SplitSmart does for you</div>
+          <div class="hero-card-grid">
+            <div class="hero-pill">
+              <span class="icon">🧾</span>
+              <span>Scan receipts and split by item</span>
+            </div>
+            <div class="hero-pill">
+              <span class="icon">⚖️</span>
+              <span>Keep every split fair & transparent</span>
+            </div>
+            <div class="hero-pill">
+              <span class="icon">📲</span>
+              <span>Settle balances in a few taps</span>
+            </div>
+            <div class="hero-pill">
+              <span class="icon">😊</span>
+              <span>Remove awkward “Can you pay me?” chats</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- BRAND STORY -->
+    <section id="story">
+      <div class="section-kicker">About SplitSmart</div>
+      <h2 class="section-title">Why we exist</h2>
+      <p class="section-description">
+        SplitSmart started with a simple question: why is asking friends for
+        your own money harder than paying for everyone in the first place?
+      </p>
+
+      <div class="card">
+        <div class="card-title">Our story</div>
+        <p>
+          Students and young professionals constantly split rent, groceries,
+          takeaway, taxis, trips and event costs. One person usually pays first,
+          and then begins the long cycle of screenshots, reminders and “I’ll
+          send it tomorrow” replies. Traditional banking apps weren’t designed
+          for this reality: they move money, but they don’t manage
+          <strong>who owes what, when, and why</strong>.
+        </p>
+        <p>
+          SplitSmart is built to fix exactly that. Instead of messy group chats
+          and awkward conversations, everything happens in one place. You scan
+          a receipt, assign items to each person, and SplitSmart takes care of
+          the maths, the tracking and the gentle nudges.
+        </p>
+        <p>We remove friction through:</p>
+        <ul>
+          <li>automatic receipt scanning with itemised splitting</li>
+          <li>transparent shared ledgers everyone can see</li>
+          <li>fast, open-banking powered settlements</li>
+          <li>friendly, app-based reminders instead of personal nagging</li>
+        </ul>
+        <p>
+          We’re building SplitSmart for <strong>students first</strong>, then
+          expanding to young professionals, co-living communities and travel
+          groups across Ireland and, ultimately, Europe.
+        </p>
+      </div>
+
+      <div class="grid-2" style="margin-top: 1.1rem;">
+        <div class="card">
+          <div class="card-title">How we want to feel as a brand</div>
+          <p><strong>Message:</strong></p>
+          <p>
+            “SplitSmart makes group expenses effortless — no awkward reminders,
+            no conflicts, no delays.”
+          </p>
+          <p><strong>Promise:</strong></p>
+          <p>
+            “Fairness, transparency and fast settlements for every group you’re in.”
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Personality & voice</div>
+          <p><strong>Personality:</strong> friendly, honest, modern, youth-driven and reliable.</p>
+          <p><strong>Voice:</strong></p>
+          <ul>
+            <li>Simple, clear and jargon-free.</li>
+            <li>A bit humorous, especially around student life.</li>
+            <li>Respectful and reassuring when talking about money and security.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1.1rem;">
+        <div class="card-title">Visual identity</div>
+        <p class="card-subtitle">
+          A clean fintech interface with student-friendly energy.
+        </p>
+        <div class="grid-3">
+          <div>
+            <div class="color-swatch swatch-blue">#0066FF</div>
+            <p style="font-size: 0.8rem; margin-top: 0.3rem;">
+              Electric blue – trust, clarity and technology.
+            </p>
+          </div>
+          <div>
+            <div class="color-swatch swatch-green">#49FF4C</div>
+            <p style="font-size: 0.8rem; margin-top: 0.3rem;">
+              Neon green – action, confirmation and call-to-action buttons.
+            </p>
+          </div>
+          <div>
+            <div class="color-swatch swatch-white">#FFFFFF</div>
+            <p style="font-size: 0.8rem; margin-top: 0.3rem;">
+              White – space for breathing, focus and simplicity.
+            </p>
+          </div>
+        </div>
+        <p style="margin-top: 0.5rem;">
+          We combine these with rounded, modern typefaces, subtle gradients and
+          imagery of phones, receipts, shared homes and campus life.
+        </p>
+      </div>
+    </section>
+
+    <!-- WHO IT'S FOR (PERSONAS) -->
+    <section id="audience">
+      <div class="section-kicker">Who it’s for</div>
+      <h2 class="section-title">Designed around real people</h2>
+      <p class="section-description">
+        SplitSmart focuses on the people who carry the mental and financial load
+        of organising group life.
+      </p>
+
+      <div class="card">
+        <div class="card-title">Core audience</div>
+        <p>
+          <strong>Students in Dublin</strong> who share housing or organise trips,
+          events and nights out, plus <strong>young professionals</strong> living
+          in co-living and shared apartments across Ireland.
+        </p>
+      </div>
+
+      <div class="grid-2" style="margin-top: 1.1rem;">
+        <div class="card">
+          <div class="persona-header">
+            <div>
+              <div class="card-title">Aidan – the organiser in every group</div>
+              <div class="card-subtitle">
+                “I’ll pay now, just send me your share later.”
+              </div>
+            </div>
+            <div class="persona-avatar">A</div>
+          </div>
+          <p><strong>Age:</strong> 21 · <strong>Location:</strong> Dublin</p>
+          <p><strong>Who he is:</strong> A student who naturally ends up organising
+            dinners, society trips and events for his friends.</p>
+          <p><strong>Habits:</strong></p>
+          <ul>
+            <li>Lives in a shared apartment and is active in university societies.</li>
+            <li>Uses WhatsApp, TikTok and Instagram daily.</li>
+            <li>Often pays deposits or full amounts on his own card.</li>
+          </ul>
+          <p><strong>Pain:</strong></p>
+          <ul>
+            <li>Always chasing people to pay him back.</li>
+            <li>Worries about seeming pushy when reminding friends.</li>
+            <li>Spends time tracking expenses manually.</li>
+          </ul>
+          <p><strong>What SplitSmart gives him:</strong></p>
+          <ul>
+            <li>Automatic reminders sent by the app, not him.</li>
+            <li>Fair, itemised splitting based on what everyone actually had.</li>
+            <li>Fast settlement so his own account isn’t out of pocket for long.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="persona-header">
+            <div>
+              <div class="card-title">Sara – the calm housemate</div>
+              <div class="card-subtitle">
+                “I just want our bills to be fair and drama-free.”
+              </div>
+            </div>
+            <div class="persona-avatar">S</div>
+          </div>
+          <p><strong>Age:</strong> 26 · <strong>Location:</strong> Dublin 8</p>
+          <p><strong>Who she is:</strong> A young professional sharing an apartment
+            with three other people.</p>
+          <p><strong>Habits:</strong></p>
+          <ul>
+            <li>Splits rent, utilities, groceries and rideshares every month.</li>
+            <li>Comfortable with digital banking and budgeting apps.</li>
+            <li>Likes things to be organised and transparent.</li>
+          </ul>
+          <p><strong>Pain:</strong></p>
+          <ul>
+            <li>Confusion when different housemates pay different bills.</li>
+            <li>Occasional tension about who owes what.</li>
+            <li>Time lost reconciling bank statements and receipts.</li>
+          </ul>
+          <p><strong>What SplitSmart gives her:</strong></p>
+          <ul>
+            <li>A single shared ledger for the whole house.</li>
+            <li>Monthly summaries everyone can see and agree on.</li>
+            <li>No-drama tools that keep relationships smooth.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- GROWTH GOALS -->
+    <section id="goals">
+      <div class="section-kicker">Growth goals</div>
+      <h2 class="section-title">How we measure early success</h2>
+      <p class="section-description">
+        We treat our launch like a focused social campaign with clear, measurable
+        goals around awareness, engagement and adoption.
+      </p>
+
+      <div class="objective-grid">
+        <div class="objective-card">
+          <div class="objective-label">Goal 1</div>
+          <div class="objective-title">Reach students in Dublin</div>
+          <p>
+            Build awareness by reaching at least <strong>30,000 people</strong>
+            across TikTok and Instagram within the first <strong>60 days</strong>.
+          </p>
+        </div>
+        <div class="objective-card">
+          <div class="objective-label">Goal 2</div>
+          <div class="objective-title">Spark real engagement</div>
+          <p>
+            Generate at least <strong>2,000 interactions</strong> (likes, comments,
+            shares, saves) in the first <strong>8 weeks</strong>, showing our
+            content truly resonates with student life.
+          </p>
+        </div>
+        <div class="objective-card">
+          <div class="objective-label">Goal 3</div>
+          <div class="objective-title">Convert curiosity into installs</div>
+          <p>
+            Reach <strong>1,000 app installs</strong> from Dublin-based users
+            within the first <strong>3 months</strong>, primarily from social and
+            campus activity.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRATEGY (RACE) -->
+    <section id="strategy">
+      <div class="section-kicker">Our strategy</div>
+      <h2 class="section-title">From “I’ve seen it” to “I use it”</h2>
+      <p class="section-description">
+        Our growth strategy follows the RACE model: Reach, Act, Convert, Engage.
+        It ensures creative content leads to real, repeat usage.
+      </p>
+
+      <div class="race-grid">
+        <div class="race-card">
+          <div class="race-label">R</div>
+          <div class="race-title">Reach – be where the jokes are</div>
+          <ul>
+            <li>TikTok skits about the most awkward ways to split bills.</li>
+            <li>Instagram Reels that dramatise real student group moments.</li>
+            <li>Paid boosts around peak campus times in Dublin City.</li>
+          </ul>
+        </div>
+        <div class="race-card">
+          <div class="race-label">A</div>
+          <div class="race-title">Act – start the conversation</div>
+          <ul>
+            <li>Polls like “Who’s the one who never pays?”</li>
+            <li>Short carousels with tips for fairer group spending.</li>
+            <li>Memes that students want to tag their friends in.</li>
+          </ul>
+        </div>
+        <div class="race-card">
+          <div class="race-label">C</div>
+          <div class="race-title">Convert – make trying us effortless</div>
+          <ul>
+            <li>QR codes at events that go straight to the download page.</li>
+            <li>“Invite 3 friends, unlock premium tools for your next trip.”</li>
+            <li>Feature demos that show you can scan and split in seconds.</li>
+          </ul>
+        </div>
+        <div class="race-card">
+          <div class="race-label">E</div>
+          <div class="race-title">Engage – become the default</div>
+          <ul>
+            <li>Monthly spending snapshots users love to share.</li>
+            <li>Tips and nudges that genuinely help with budgeting.</li>
+            <li>Continuous improvement based on real usage data.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1rem;">
+        <div class="card-title">Where we show up</div>
+        <p>
+          We back this strategy with a micro-influencer layer: student leaders,
+          society committees and small creators documenting how they use
+          SplitSmart for events, trips and shared housing.
+        </p>
+      </div>
+    </section>
+
+    <!-- PLATFORMS -->
+    <section id="platforms">
+      <div class="section-kicker">Channels</div>
+      <h2 class="section-title">Where you’ll find us first</h2>
+      <p class="section-description">
+        We focus on the platforms where students and young sharers already spend
+        most of their screen time.
+      </p>
+
+      <div class="platform-grid">
+        <div class="platform-card">
+          <div class="card-title">
+            <span class="badge-icon">🎵</span>TikTok
+          </div>
+          <p>
+            TikTok is our main engine for reach. It’s where student humour,
+            stories and day-in-the-life content live.
+          </p>
+          <ul>
+            <li>Short, funny clips about group money drama.</li>
+            <li>POV content that feels like real conversations.</li>
+            <li>Native trends adapted to bill-splitting situations.</li>
+          </ul>
+        </div>
+
+        <div class="platform-card">
+          <div class="card-title">
+            <span class="badge-icon">📸</span>Instagram
+          </div>
+          <p>
+            Instagram is where we combine visual storytelling with stronger brand
+            identity and feature education.
+          </p>
+          <ul>
+            <li>Reels mirroring our TikTok concepts.</li>
+            <li>Stories for society partnerships and campus events.</li>
+            <li>Feed posts for clean UI shots and testimonials.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT STRATEGY -->
+    <section id="content">
+      <div class="section-kicker">Content</div>
+      <h2 class="section-title">What we share with the world</h2>
+      <p class="section-description">
+        Our content is built around four pillars: humour, education, product and
+        community.
+      </p>
+
+      <div class="content-theme-grid">
+        <div class="card">
+          <div class="card-title">Humour & relatable chaos</div>
+          <p>
+            The “shared pain” of group payments is genuinely funny — when the app
+            fixes it for you.
+          </p>
+          <ul>
+            <li>Skits about the friend who disappears when the bill comes.</li>
+            <li>Memes about unpaid group chats and IOUs.</li>
+            <li>Before/after jokes: with vs. without SplitSmart.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Quick education</div>
+          <p>
+            Snackable tips that make money conversations less stressful.
+          </p>
+          <ul>
+            <li>“3 ways to avoid fights over shared bills.”</li>
+            <li>“How to split fairly when not everyone drinks or eats the same.”</li>
+            <li>“What a transparent shared ledger looks like.”</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Feature moments</div>
+          <p>
+            Show, don’t tell: real flows inside the app.
+          </p>
+          <ul>
+            <li>Receipt scan from photo to split in seconds.</li>
+            <li>Creating an event kitty for a society trip.</li>
+            <li>Closing out all balances with one tap.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Community & proof</div>
+          <p>
+            Real groups, real stories, real numbers.
+          </p>
+          <ul>
+            <li>Societies using SplitSmart for events and away days.</li>
+            <li>Housemates explaining how they keep things fair.</li>
+            <li>Micro-influencers sharing their “how I split bills” routines.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section id="analytics">
+      <div class="section-kicker">Analytics</div>
+      <h2 class="section-title">How we know it’s working</h2>
+      <p class="section-description">
+        Behind the memes and videos, SplitSmart runs on data. We track what
+        matters, especially in the early stages.
+      </p>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-title">Reach & impressions</div>
+          <p>
+            How many people see our content. This tells us if we’re actually
+            getting in front of students in Dublin and beyond.
+          </p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Engagement rate</div>
+          <p>
+            Likes, comments, shares and saves relative to reach. If people don’t
+            interact, the message isn’t landing.
+          </p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Click-through rate (CTR)</div>
+          <p>
+            The percentage of viewers who tap through to download or learn more.
+            This shows how compelling our content is.
+          </p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Cost per install (CPI)</div>
+          <p>
+            For paid campaigns, CPI tells us how efficient our spend is at
+            turning impressions into app users.
+          </p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Installs & active users</div>
+          <p>
+            We look at app downloads and daily / monthly active users driven
+            by social, not just views.
+          </p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Shares & saves</div>
+          <p>
+            Critical for TikTok and Reels virality. When people save or share,
+            content keeps working long after posting.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOODBOARD -->
+    <section id="moodboard">
+      <div class="section-kicker">Visual direction</div>
+      <h2 class="section-title">How SplitSmart should look and feel</h2>
+      <p class="section-description">
+        Even before the app is in your hands, we want the visuals to say:
+        “clean, fair, friendly and built for real life together”.
+      </p>
+
+      <div class="mood-grid">
+        <div class="mood-tile">Students laughing around a table after splitting a bill</div>
+        <div class="mood-tile">Phones scanning receipts in restaurants or supermarkets</div>
+        <div class="mood-tile">Minimal fintech UI with blue and green accents</div>
+        <div class="mood-tile">Shared apartments and co-living spaces</div>
+        <div class="mood-tile">Campus scenes at Dublin universities and societies</div>
+        <div class="mood-tile">Bright “Settle now” buttons and confirmation screens</div>
+        <div class="mood-tile">Icons for group chats, ledgers and quick transfers</div>
+        <div class="mood-tile">Soft gradients and rounded cards, not harsh finance vibes</div>
+      </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section id="roadmap">
+      <div class="section-kicker">Roadmap</div>
+      <h2 class="section-title">From one city to many</h2>
+      <p class="section-description">
+        We start where group life is densest and loudest – student cities – and
+        expand based on real traction.
+      </p>
+
+      <div class="card">
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-label">Phase 1</div>
+            <div class="timeline-title">Dublin City</div>
+            <ul>
+              <li>Launch with student unions, societies and shared accommodation.</li>
+              <li>Target high-usage periods like freshers, trips and exam season.</li>
+              <li>Refine product and messaging based on hands-on feedback.</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-label">Phase 2</div>
+            <div class="timeline-title">Ireland-wide</div>
+            <ul>
+              <li>Expand to Cork, Galway, Limerick and other student hubs.</li>
+              <li>Reach young professionals in co-living and shared houses.</li>
+              <li>Experiment with partnerships in travel and housing.</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-label">Phase 3</div>
+            <div class="timeline-title">Europe</div>
+            <ul>
+              <li>Start with Erasmus and international student networks.</li>
+              <li>Target major co-living cities like Berlin, Amsterdam, London.</li>
+              <li>Position SplitSmart as the default way to share costs in groups.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    SplitSmart · Making group payments painless · Built for students and shared
+    living
+  </footer>
+
+  <script>
+    // Highlight active nav link while scrolling
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".nav-links a");
+
+    function onScroll() {
+      let currentId = null;
+      sections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= 80 && rect.bottom >= 80) {
+          currentId = sec.id;
+        }
+      });
+      if (!currentId) return;
+      navLinks.forEach((link) => {
+        link.classList.toggle(
+          "active",
+          link.getAttribute("href") === "#" + currentId
+        );
+      });
+    }
+
+    document.addEventListener("scroll", onScroll);
+  </script>
+</body>
+</html>
